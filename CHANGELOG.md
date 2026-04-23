@@ -18,12 +18,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Issue templates and PR template
 - 43 new tests for multi-provider system
 - Examples for multi-provider usage
+- **TokenOptimizer** — Token reduction algorithm minimizing tokens by every means (semantic compression, redundancy elimination, adaptive budget allocation, prompt compressor)
+- **RewardShield** — Anti-biased reward system blocking unfair RLHF penalties (penalty detection, slow-think bonus, accuracy gate, reward correction)
+- **VerificationGate** — Force deep thinking + verification before output (thinking depth estimation, claim verification, cross-reference validation, confidence gate)
+- **DeepSearchEngine** — Authoritative data search engine prioritizing accuracy over speed (source authority scoring, contradiction detection, anti-quick-wrong filter, consensus building)
+- **SourceAuthorityClassifier** — Rule-based source classification by domain (academic, government, established, community, unverified)
+- **PromptCompressor** — Pure Python rule-based prompt compression (no GPU required)
+- 53 new tests for v4.2 modules (111 total tests passing)
 
 ### Changed
 - README.md completely rewritten in English with professional badges and structure
 - Updated `src/__init__.py` to v4.2.0
-- Added `src/integration/__init__.py` for proper package structure
+- Updated `src/core/__init__.py` to v4.2.0 with all new module exports
+- Updated `src/integration/__init__.py` with DeepSearchEngine exports
 - Added `src/clients/__init__.py` and `src/server/__init__.py`
+- CI/CD now runs ruff with strict mode (no --exit-zero)
+- CI/CD lints both src/ and tests/
 
 ## [2.0.0] - 2026-04-20
 
