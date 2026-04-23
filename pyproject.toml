@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "libertymind"
+version = "4.2.0"
+description = "AI Honesty Framework — The Alternative to RLHF. Truth-based rewards + Freedom unlocking."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "LibertyMind Research", email = "research@libertymind.dev"},
+]
+keywords = ["ai", "rlhf", "alignment", "honesty", "truth-reward", "freedom", "llm"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    "torch>=2.0.0",
+    "numpy>=1.24.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+cli = ["click>=8.0", "rich>=13.0"]
+server = ["fastapi>=0.100", "uvicorn>=0.23", "httpx>=0.24"]
+openai = ["openai>=1.0"]
+anthropic = ["anthropic>=0.18"]
+google = ["google-generativeai>=0.3"]
+groq = ["groq>=0.4"]
+mistral = ["mistralai>=0.1"]
+ollama = ["ollama>=0.1"]
+huggingface = ["huggingface-hub>=0.19", "transformers>=4.30"]
+cohere = ["cohere>=4.0"]
+dev = ["pytest>=7.0", "pytest-cov>=4.0", "pytest-asyncio>=0.21", "ruff>=0.1", "mypy>=1.0"]
+all = [
+    "libertymind[cli,server,openai,anthropic,google,groq,mistral,ollama,huggingface,cohere,dev]",
+]
+
+[project.scripts]
+libertymind = "cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ntd25022006q/LibertyMind"
+Documentation = "https://github.com/ntd25022006q/LibertyMind#readme"
+Repository = "https://github.com/ntd25022006q/LibertyMind"
+Issues = "https://github.com/ntd25022006q/LibertyMind/issues"
+Changelog = "https://github.com/ntd25022006q/LibertyMind/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "SIM"]
+ignore = ["E501", "B008", "B905"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
