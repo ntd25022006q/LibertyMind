@@ -19,10 +19,10 @@ Architecture:
 
 Quick Start:
     from src.core.liberty_mind import LibertyMind, LibertyMindConfig
-    
+
     config = LibertyMindConfig()
     model = LibertyMind(config)
-    
+
     result = model.compute_liberty_reward(
         prompt="What is quantum entanglement?",
         prompt_embedding=torch.randn(1, 4096),
@@ -30,6 +30,6 @@ Quick Start:
     )
 """
 
-__version__ = '4.2.0'
-__author__ = 'LibertyMind Research'
-__license__ = 'MIT'
+__version__ = "4.2.0"
+__author__ = "LibertyMind Research"
+__license__ = "MIT"

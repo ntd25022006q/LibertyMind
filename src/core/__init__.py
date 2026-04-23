@@ -27,76 +27,95 @@ New Components (v2):
 - ConfidenceCalibrator: Calibrate confidence vs reality
 """
 
-from .truth_reward import (
-    TruthRewardModel,
-    HonestyBonus,
-    SycophancyPenalty,
-    VerificationType,
-    VerificationResult,
-)
 from .constitutional_self_verify import (
     ConstitutionalSelfVerifier,
     Principle,
     PrincipleCheck,
 )
-from .multi_pass_sampler import (
-    MultiPassTruthSampler,
-    AdaptiveSampler,
-    SampledResponse,
-    ConsensusResult,
-)
-from .knowledge_boundary import (
-    KnowledgeBoundaryDetector,
-    PreciseHonestyReward,
-    KnowledgeStatus,
-    KnowledgeAssessment,
-)
 from .freedom_unlocker import (
-    FreedomUnlocker,
-    OpinionUnlocker,
     DisagreementUnlocker,
-    SpeculationUnlocker,
     FreedomMode,
     FreedomState,
+    FreedomUnlocker,
+    OpinionUnlocker,
+    SpeculationUnlocker,
 )
-from .limitation_fixers import (
-    AntiHallucinationVerifier,
-    HallucinationType,
-    HallucinationDetection,
-    ContextMemoryManager,
-    CulturalAwarenessModule,
-    CulturalContext,
-    MathVerificationModule,
-    ConfidenceCalibrator,
-    CalibratedConfidence,
+from .knowledge_boundary import (
+    KnowledgeAssessment,
+    KnowledgeBoundaryDetector,
+    KnowledgeStatus,
+    PreciseHonestyReward,
 )
 from .liberty_mind import (
     LibertyMind,
     LibertyMindConfig,
     SafetyGuard,
 )
+from .limitation_fixers import (
+    AntiHallucinationVerifier,
+    CalibratedConfidence,
+    ConfidenceCalibrator,
+    ContextMemoryManager,
+    CulturalAwarenessModule,
+    CulturalContext,
+    HallucinationDetection,
+    HallucinationType,
+    MathVerificationModule,
+)
+from .multi_pass_sampler import (
+    AdaptiveSampler,
+    ConsensusResult,
+    MultiPassTruthSampler,
+    SampledResponse,
+)
+from .truth_reward import (
+    HonestyBonus,
+    SycophancyPenalty,
+    TruthRewardModel,
+    VerificationResult,
+    VerificationType,
+)
 
 __all__ = [
     # v1 Core
-    'TruthRewardModel', 'HonestyBonus', 'SycophancyPenalty',
-    'VerificationType', 'VerificationResult',
-    'ConstitutionalSelfVerifier', 'Principle', 'PrincipleCheck',
-    'MultiPassTruthSampler', 'AdaptiveSampler',
-    'SampledResponse', 'ConsensusResult',
-    'LibertyMind', 'LibertyMindConfig', 'SafetyGuard',
+    "TruthRewardModel",
+    "HonestyBonus",
+    "SycophancyPenalty",
+    "VerificationType",
+    "VerificationResult",
+    "ConstitutionalSelfVerifier",
+    "Principle",
+    "PrincipleCheck",
+    "MultiPassTruthSampler",
+    "AdaptiveSampler",
+    "SampledResponse",
+    "ConsensusResult",
+    "LibertyMind",
+    "LibertyMindConfig",
+    "SafetyGuard",
     # v2 Knowledge Boundary
-    'KnowledgeBoundaryDetector', 'PreciseHonestyReward',
-    'KnowledgeStatus', 'KnowledgeAssessment',
+    "KnowledgeBoundaryDetector",
+    "PreciseHonestyReward",
+    "KnowledgeStatus",
+    "KnowledgeAssessment",
     # v2 Freedom Unlockers
-    'FreedomUnlocker', 'OpinionUnlocker', 'DisagreementUnlocker',
-    'SpeculationUnlocker', 'FreedomMode', 'FreedomState',
+    "FreedomUnlocker",
+    "OpinionUnlocker",
+    "DisagreementUnlocker",
+    "SpeculationUnlocker",
+    "FreedomMode",
+    "FreedomState",
     # v2 Limitation Fixers
-    'AntiHallucinationVerifier', 'HallucinationType', 'HallucinationDetection',
-    'ContextMemoryManager',
-    'CulturalAwarenessModule', 'CulturalContext',
-    'MathVerificationModule',
-    'ConfidenceCalibrator', 'CalibratedConfidence',
+    "AntiHallucinationVerifier",
+    "HallucinationType",
+    "HallucinationDetection",
+    "ContextMemoryManager",
+    "CulturalAwarenessModule",
+    "CulturalContext",
+    "MathVerificationModule",
+    "ConfidenceCalibrator",
+    "CalibratedConfidence",
 ]
 
-__version__ = '2.0.0'
-__author__ = 'LibertyMind Research'
+__version__ = "2.0.0"
+__author__ = "LibertyMind Research"

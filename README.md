@@ -8,7 +8,7 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB.svg?logo=python&logoColor=white)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C.svg?logo=pytorch&logoColor=white)](https://pytorch.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-141%2F142-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/Tests-58%2F58-brightgreen.svg)](tests/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-ff69b4.svg)](CONTRIBUTING.md)
 
 *AI should earn rewards by being **RIGHT**, not by being **PLEASING**.*

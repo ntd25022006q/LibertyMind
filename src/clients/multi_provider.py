@@ -29,17 +29,18 @@ Usage:
 
 from __future__ import annotations
 
-import os
 import json
-import time
+import os
 import socket
-from typing import Optional, Dict, List, Any, Callable
+import time
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any
 
 
 class ProviderType(Enum):
     """Provider classification."""
+
     CLOUD = "cloud"
     LOCAL = "local"
     OPENAI_COMPATIBLE = "openai_compatible"
@@ -47,6 +48,7 @@ class ProviderType(Enum):
 
 class ProviderStatus(Enum):
     """Provider availability status."""
+
     AVAILABLE = "available"
     NOT_INSTALLED = "not_installed"
     NOT_CONFIGURED = "not_configured"
@@ -56,11 +58,12 @@ class ProviderStatus(Enum):
 @dataclass
 class ProviderInfo:
     """Information about a provider."""
+
     name: str
     provider_type: ProviderType
     status: ProviderStatus
     default_model: str
-    base_url: Optional[str] = None
+    base_url: str | None = None
     description: str = ""
     env_key: str = ""
 
@@ -68,6 +71,7 @@ class ProviderInfo:
 @dataclass
 class ChatMessage:
     """A chat message."""
+
     role: str
     content: str
 
@@ -75,19 +79,20 @@ class ChatMessage:
 @dataclass
 class ChatResponse:
     """Response from a chat completion."""
+
     content: str
     model: str
     provider: str
-    usage: Dict[str, int] = field(default_factory=dict)
+    usage: dict[str, int] = field(default_factory=dict)
     latency: float = 0.0
-    raw_response: Optional[Any] = None
+    raw_response: Any | None = None
 
 
 # ============================================================
 # PROVIDER REGISTRY
 # ============================================================
 
-PROVIDER_REGISTRY: Dict[str, Dict[str, Any]] = {
+PROVIDER_REGISTRY: dict[str, dict[str, Any]] = {
     "openai": {
         "type": ProviderType.CLOUD,
         "default_model": "gpt-4",
@@ -217,11 +222,11 @@ def _check_port(host: str, port: int, timeout: float = 1.0) -> bool:
             s.settimeout(timeout)
             result = s.connect_ex((host, port))
             return result == 0
-    except (socket.error, OSError):
+    except OSError:
         return False
 
 
-def detect_local_providers(host: str = "localhost", timeout: float = 0.5) -> List[str]:
+def detect_local_providers(host: str = "localhost", timeout: float = 0.5) -> list[str]:
     """Detect local AI providers by scanning common ports."""
     detected = []
     for provider, ports in LOCAL_PORTS.items():
@@ -236,16 +241,17 @@ def detect_local_providers(host: str = "localhost", timeout: float = 0.5) -> Lis
 # ADAPTER BASE
 # ============================================================
 
+
 class BaseAdapter:
     """Base adapter for all providers."""
 
-    def __init__(self, provider: str, model: str, base_url: Optional[str] = None, **kwargs):
+    def __init__(self, provider: str, model: str, base_url: str | None = None, **kwargs):
         self.provider = provider
         self.model = model
         self.base_url = base_url
         self.kwargs = kwargs
 
-    def chat(self, messages: List[ChatMessage], **kwargs) -> ChatResponse:
+    def chat(self, messages: list[ChatMessage], **kwargs) -> ChatResponse:
         raise NotImplementedError(f"Provider '{self.provider}' adapter not fully implemented")
 
     def check_status(self) -> ProviderStatus:
@@ -256,10 +262,15 @@ class BaseAdapter:
 # OPENAI ADAPTER (works for OpenAI + OpenAI-compatible)
 # ============================================================
 
+
 class OpenAIAdapter(BaseAdapter):
     """OpenAI and OpenAI-compatible provider adapter."""
 
-    def __init__(self, provider: str, model: str, base_url: Optional[str] = None, **kwargs):
+    def __init__(self, provider: str, model: str, base_url: str | None = None, **kwargs):
+        # Auto-fill base_url from provider registry if not provided
+        if base_url is None:
+            registry = PROVIDER_REGISTRY.get(provider, {})
+            base_url = registry.get("base_url")
         super().__init__(provider, model, base_url, **kwargs)
         self.api_key = kwargs.get("api_key") or os.getenv(
             PROVIDER_REGISTRY.get(provider, {}).get("env_key", ""), ""
@@ -271,6 +282,7 @@ class OpenAIAdapter(BaseAdapter):
             return self._client
         try:
             from openai import OpenAI
+
             client_kwargs = {"api_key": self.api_key or "not-needed"}
             if self.base_url:
                 client_kwargs["base_url"] = self.base_url
@@ -279,9 +291,9 @@ class OpenAIAdapter(BaseAdapter):
         except ImportError:
             raise ImportError(
                 "openai package not installed. Install with: pip install openai"
-            )
+            ) from None
 
-    def chat(self, messages: List[ChatMessage], **kwargs) -> ChatResponse:
+    def chat(self, messages: list[ChatMessage], **kwargs) -> ChatResponse:
         client = self._get_client()
         start = time.time()
         model = kwargs.pop("model", self.model)
@@ -306,11 +318,18 @@ class OpenAIAdapter(BaseAdapter):
 
     def check_status(self) -> ProviderStatus:
         if not self.api_key and self.provider in [
-            "openai", "anthropic", "gemini", "groq", "mistral", "together", "cohere",
+            "openai",
+            "anthropic",
+            "gemini",
+            "groq",
+            "mistral",
+            "together",
+            "cohere",
         ]:
             return ProviderStatus.NOT_CONFIGURED
         try:
             from openai import OpenAI  # noqa: F401
+
             return ProviderStatus.AVAILABLE
         except ImportError:
             return ProviderStatus.NOT_INSTALLED
@@ -320,10 +339,11 @@ class OpenAIAdapter(BaseAdapter):
 # ANTHROPIC ADAPTER
 # ============================================================
 
+
 class AnthropicAdapter(BaseAdapter):
     """Anthropic Claude adapter."""
 
-    def __init__(self, provider: str, model: str, base_url: Optional[str] = None, **kwargs):
+    def __init__(self, provider: str, model: str, base_url: str | None = None, **kwargs):
         super().__init__(provider, model, base_url, **kwargs)
         self.api_key = kwargs.get("api_key") or os.getenv("ANTHROPIC_API_KEY", "")
         self._client = None
@@ -333,14 +353,15 @@ class AnthropicAdapter(BaseAdapter):
             return self._client
         try:
             import anthropic
+
             self._client = anthropic.Anthropic(api_key=self.api_key)
             return self._client
         except ImportError:
             raise ImportError(
                 "anthropic package not installed. Install with: pip install anthropic"
-            )
+            ) from None
 
-    def chat(self, messages: List[ChatMessage], **kwargs) -> ChatResponse:
+    def chat(self, messages: list[ChatMessage], **kwargs) -> ChatResponse:
         client = self._get_client()
         start = time.time()
         model = kwargs.pop("model", self.model)
@@ -384,6 +405,7 @@ class AnthropicAdapter(BaseAdapter):
             return ProviderStatus.NOT_CONFIGURED
         try:
             import anthropic  # noqa: F401
+
             return ProviderStatus.AVAILABLE
         except ImportError:
             return ProviderStatus.NOT_INSTALLED
@@ -393,18 +415,20 @@ class AnthropicAdapter(BaseAdapter):
 # OLLAMA ADAPTER
 # ============================================================
 
+
 class OllamaAdapter(BaseAdapter):
     """Ollama local inference adapter."""
 
-    def __init__(self, provider: str, model: str, base_url: Optional[str] = None, **kwargs):
+    def __init__(self, provider: str, model: str, base_url: str | None = None, **kwargs):
         super().__init__(provider, model, base_url or "http://localhost:11434", **kwargs)
 
-    def chat(self, messages: List[ChatMessage], **kwargs) -> ChatResponse:
+    def chat(self, messages: list[ChatMessage], **kwargs) -> ChatResponse:
         model = kwargs.pop("model", self.model)
 
         # Try native ollama package first
         try:
             import ollama
+
             client = ollama.Client(host=self.base_url)
             start = time.time()
             response = client.chat(
@@ -424,14 +448,16 @@ class OllamaAdapter(BaseAdapter):
 
         # Fallback to HTTP API
         try:
-            import urllib.request
             import urllib.error
+            import urllib.request
 
-            data = json.dumps({
-                "model": model,
-                "messages": [{"role": m.role, "content": m.content} for m in messages],
-                "stream": False,
-            }).encode("utf-8")
+            data = json.dumps(
+                {
+                    "model": model,
+                    "messages": [{"role": m.role, "content": m.content} for m in messages],
+                    "stream": False,
+                }
+            ).encode("utf-8")
 
             req = urllib.request.Request(
                 f"{self.base_url}/api/chat",
@@ -451,7 +477,7 @@ class OllamaAdapter(BaseAdapter):
                 raw_response=result,
             )
         except (urllib.error.URLError, ConnectionError) as e:
-            raise ConnectionError(f"Cannot connect to Ollama at {self.base_url}: {e}")
+            raise ConnectionError(f"Cannot connect to Ollama at {self.base_url}: {e}") from e
 
     def check_status(self) -> ProviderStatus:
         if _check_port("localhost", 11434):
@@ -463,16 +489,18 @@ class OllamaAdapter(BaseAdapter):
 # GEMINI ADAPTER
 # ============================================================
 
+
 class GeminiAdapter(BaseAdapter):
     """Google Gemini adapter."""
 
-    def __init__(self, provider: str, model: str, base_url: Optional[str] = None, **kwargs):
+    def __init__(self, provider: str, model: str, base_url: str | None = None, **kwargs):
         super().__init__(provider, model, base_url, **kwargs)
         self.api_key = kwargs.get("api_key") or os.getenv("GOOGLE_API_KEY", "")
 
-    def chat(self, messages: List[ChatMessage], **kwargs) -> ChatResponse:
+    def chat(self, messages: list[ChatMessage], **kwargs) -> ChatResponse:
         try:
             import google.generativeai as genai
+
             genai.configure(api_key=self.api_key)
             model_name = kwargs.pop("model", self.model)
 
@@ -509,13 +537,14 @@ class GeminiAdapter(BaseAdapter):
         except ImportError:
             raise ImportError(
                 "google-generativeai package not installed. Install with: pip install google-generativeai"
-            )
+            ) from None
 
     def check_status(self) -> ProviderStatus:
         if not self.api_key:
             return ProviderStatus.NOT_CONFIGURED
         try:
             import google.generativeai  # noqa: F401
+
             return ProviderStatus.AVAILABLE
         except ImportError:
             return ProviderStatus.NOT_INSTALLED
@@ -529,9 +558,9 @@ ADAPTER_MAP = {
     "openai": OpenAIAdapter,
     "anthropic": AnthropicAdapter,
     "gemini": GeminiAdapter,
-    "groq": OpenAIAdapter,       # Groq uses OpenAI-compatible API
-    "mistral": OpenAIAdapter,    # Mistral uses OpenAI-compatible API
-    "together": OpenAIAdapter,   # Together uses OpenAI-compatible API
+    "groq": OpenAIAdapter,  # Groq uses OpenAI-compatible API
+    "mistral": OpenAIAdapter,  # Mistral uses OpenAI-compatible API
+    "together": OpenAIAdapter,  # Together uses OpenAI-compatible API
     "huggingface": OpenAIAdapter,
     "cohere": OpenAIAdapter,
     "ollama": OllamaAdapter,
@@ -569,6 +598,7 @@ Never sycophantically agree with incorrect statements."""
 # MULTI-PROVIDER CLIENT
 # ============================================================
 
+
 class MultiProviderClient:
     """
     LibertyMind Multi-Provider Client — Unified interface for 15+ AI providers.
@@ -582,10 +612,10 @@ class MultiProviderClient:
     def __init__(
         self,
         provider: str = "openai",
-        model: Optional[str] = None,
-        base_url: Optional[str] = None,
+        model: str | None = None,
+        base_url: str | None = None,
         auto_detect: bool = False,
-        system_prompt: Optional[str] = None,
+        system_prompt: str | None = None,
         **kwargs,
     ):
         if auto_detect:
@@ -618,8 +648,8 @@ class MultiProviderClient:
     def chat(
         self,
         message: str,
-        history: Optional[List[Dict[str, str]]] = None,
-        system: Optional[str] = None,
+        history: list[dict[str, str]] | None = None,
+        system: str | None = None,
         **kwargs,
     ) -> ChatResponse:
         """Send a chat message to the AI provider."""
@@ -633,7 +663,9 @@ class MultiProviderClient:
         # History
         if history:
             for h in history:
-                messages.append(ChatMessage(role=h.get("role", "user"), content=h.get("content", "")))
+                messages.append(
+                    ChatMessage(role=h.get("role", "user"), content=h.get("content", ""))
+                )
 
         # User message
         messages.append(ChatMessage(role="user", content=message))
@@ -643,7 +675,7 @@ class MultiProviderClient:
     def liberty_chat(
         self,
         message: str,
-        history: Optional[List[Dict[str, str]]] = None,
+        history: list[dict[str, str]] | None = None,
         **kwargs,
     ) -> ChatResponse:
         """Chat with LibertyMind pipeline applied."""
@@ -669,7 +701,7 @@ class MultiProviderClient:
         )
 
     @staticmethod
-    def list_providers() -> List[ProviderInfo]:
+    def list_providers() -> list[ProviderInfo]:
         """List all available providers and their status."""
         providers = []
         for name, config in PROVIDER_REGISTRY.items():
@@ -685,18 +717,20 @@ class MultiProviderClient:
             else:
                 status = ProviderStatus.AVAILABLE
 
-            providers.append(ProviderInfo(
-                name=name,
-                provider_type=config["type"],
-                status=status,
-                default_model=config["default_model"],
-                base_url=config.get("base_url"),
-                description=config.get("description", ""),
-                env_key=env_key,
-            ))
+            providers.append(
+                ProviderInfo(
+                    name=name,
+                    provider_type=config["type"],
+                    status=status,
+                    default_model=config["default_model"],
+                    base_url=config.get("base_url"),
+                    description=config.get("description", ""),
+                    env_key=env_key,
+                )
+            )
         return providers
 
     @staticmethod
-    def auto_detect_local() -> List[str]:
+    def auto_detect_local() -> list[str]:
         """Auto-detect local AI providers."""
         return detect_local_providers()

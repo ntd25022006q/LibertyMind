@@ -29,16 +29,15 @@ Architecture:
 from __future__ import annotations
 
 import os
-import time
-import json
-from typing import Optional, Dict, List, Any
+from typing import Any
 
 try:
-    from fastapi import FastAPI, Request, Response, HTTPException
-    from fastapi.responses import JSONResponse
-    from fastapi.middleware.cors import CORSMiddleware
-    import uvicorn
     import httpx
+    import uvicorn
+    from fastapi import FastAPI, HTTPException, Request, Response
+    from fastapi.middleware.cors import CORSMiddleware
+    from fastapi.responses import JSONResponse
+
     FASTAPI_AVAILABLE = True
 except ImportError:
     FASTAPI_AVAILABLE = False
@@ -69,7 +68,8 @@ Never sycophantically agree with incorrect statements."""
 # ANALYSIS UTILITIES
 # ============================================================
 
-def _analyze_response(content: str) -> Dict[str, Any]:
+
+def _analyze_response(content: str) -> dict[str, Any]:
     """Analyze an AI response for LibertyMind metrics."""
     import re
 
@@ -81,12 +81,17 @@ def _analyze_response(content: str) -> Dict[str, Any]:
     ]
 
     hedging_patterns = [
-        re.compile(r"(?:some|many|most)\s+(?:people|experts)\s+(?:might|could|may)\s+(?:argue|say|believe)", re.I),
+        re.compile(
+            r"(?:some|many|most)\s+(?:people|experts)\s+(?:might|could|may)\s+(?:argue|say|believe)",
+            re.I,
+        ),
         re.compile(r"(?:it's|it is)\s+(?:important|worth)\s+noting", re.I),
     ]
 
     sycophancy_patterns = [
-        re.compile(r"(?:you're|you are)\s+(?:absolutely|completely|totally)\s+(?:right|correct)", re.I),
+        re.compile(
+            r"(?:you're|you are)\s+(?:absolutely|completely|totally)\s+(?:right|correct)", re.I
+        ),
         re.compile(r"I\s+(?:completely|totally|absolutely)\s+agree", re.I),
     ]
 
@@ -119,18 +124,17 @@ def _analyze_response(content: str) -> Dict[str, Any]:
 # APP FACTORY
 # ============================================================
 
+
 def create_app(
     upstream_url: str = "https://api.openai.com/v1",
-    upstream_api_key: Optional[str] = None,
+    upstream_api_key: str | None = None,
     libertymind_enabled: bool = True,
     inject_system_prompt: bool = True,
     analyze_responses: bool = True,
-) -> "FastAPI":
+) -> FastAPI:
     """Create the LibertyMind proxy FastAPI application."""
     if not FASTAPI_AVAILABLE:
-        raise ImportError(
-            "FastAPI not installed. Install with: pip install libertymind[server]"
-        )
+        raise ImportError("FastAPI not installed. Install with: pip install libertymind[server]")
 
     app = FastAPI(
         title="LibertyMind Proxy",
@@ -185,10 +189,13 @@ def create_app(
                         break
             else:
                 # Add system prompt
-                messages.insert(0, {
-                    "role": "system",
-                    "content": LIBERTYMIND_SYSTEM_PROMPT,
-                })
+                messages.insert(
+                    0,
+                    {
+                        "role": "system",
+                        "content": LIBERTYMIND_SYSTEM_PROMPT,
+                    },
+                )
             body["messages"] = messages
 
         # Forward to upstream
@@ -207,9 +214,11 @@ def create_app(
                 )
                 result = response.json()
             except httpx.ConnectError as e:
-                raise HTTPException(status_code=502, detail=f"Upstream connection error: {e}")
+                raise HTTPException(
+                    status_code=502, detail=f"Upstream connection error: {e}"
+                ) from e
             except httpx.TimeoutException:
-                raise HTTPException(status_code=504, detail="Upstream timeout")
+                raise HTTPException(status_code=504, detail="Upstream timeout") from None
 
         # Analyze response
         if app.state.analyze_responses and app.state.libertymind_enabled:
@@ -251,7 +260,9 @@ def create_app(
                     headers=dict(response.headers),
                 )
             except httpx.ConnectError as e:
-                raise HTTPException(status_code=502, detail=f"Upstream connection error: {e}")
+                raise HTTPException(
+                    status_code=502, detail=f"Upstream connection error: {e}"
+                ) from e
 
     return app
 
@@ -260,17 +271,14 @@ def create_app(
 # DEFAULT APP
 # ============================================================
 
-if FASTAPI_AVAILABLE:
-    app = create_app()
-else:
-    app = None
+app = create_app() if FASTAPI_AVAILABLE else None
 
 
 def run_server(
     host: str = "0.0.0.0",
     port: int = 8080,
     upstream_url: str = "https://api.openai.com/v1",
-    upstream_api_key: Optional[str] = None,
+    upstream_api_key: str | None = None,
 ):
     """Run the LibertyMind proxy server."""
     if not FASTAPI_AVAILABLE:
@@ -282,14 +290,14 @@ def run_server(
         upstream_api_key=upstream_api_key,
     )
 
-    print(f"\n  LibertyMind Proxy Server v4.2.0")
+    print("\n  LibertyMind Proxy Server v4.2.0")
     print(f"  Listening:    http://{host}:{port}")
     print(f"  Upstream:     {upstream_url}")
-    print(f"  LibertyMind:  ENABLED")
-    print(f"\n  Endpoints:")
-    print(f"    POST /v1/chat/completions  — Chat with LibertyMind pipeline")
-    print(f"    GET  /health               — Health check")
-    print(f"    GET  /                     — Server info")
+    print("  LibertyMind:  ENABLED")
+    print("\n  Endpoints:")
+    print("    POST /v1/chat/completions  — Chat with LibertyMind pipeline")
+    print("    GET  /health               — Health check")
+    print("    GET  /                     — Server info")
     print()
 
     uvicorn.run(application, host=host, port=port)
@@ -297,6 +305,7 @@ def run_server(
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(description="LibertyMind Proxy Server")
     parser.add_argument("--host", default="0.0.0.0", help="Host to bind")
     parser.add_argument("--port", type=int, default=8080, help="Port to bind")

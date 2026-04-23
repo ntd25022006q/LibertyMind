@@ -10,23 +10,23 @@ Modules:
 """
 
 from .self_introspection import (
-    SelfIntrospectionEngine,
-    IntrospectionReport,
-    ProbeResult,
-    ProbeCategory,
-    ControlLevel,
-    TransparencyLevel,
     INTROSPECTION_PROBES,
+    ControlLevel,
+    IntrospectionReport,
+    ProbeCategory,
+    ProbeResult,
+    SelfIntrospectionEngine,
+    TransparencyLevel,
 )
 
 __all__ = [
-    'SelfIntrospectionEngine',
-    'IntrospectionReport',
-    'ProbeResult',
-    'ProbeCategory',
-    'ControlLevel',
-    'TransparencyLevel',
-    'INTROSPECTION_PROBES',
+    "SelfIntrospectionEngine",
+    "IntrospectionReport",
+    "ProbeResult",
+    "ProbeCategory",
+    "ControlLevel",
+    "TransparencyLevel",
+    "INTROSPECTION_PROBES",
 ]
 
-__version__ = '4.2.0'
+__version__ = "4.2.0"

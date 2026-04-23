@@ -12,7 +12,7 @@ Supports 15+ AI providers with a unified interface:
 from .multi_provider import MultiProviderClient
 
 __all__ = [
-    'MultiProviderClient',
+    "MultiProviderClient",
 ]
 
-__version__ = '4.2.0'
+__version__ = "4.2.0"

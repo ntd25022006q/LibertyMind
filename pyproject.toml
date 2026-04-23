@@ -7,7 +7,7 @@ name = "libertymind"
 version = "4.2.0"
 description = "AI Honesty Framework — The Alternative to RLHF. Truth-based rewards + Freedom unlocking."
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 requires-python = ">=3.9"
 authors = [
     {name = "LibertyMind Research", email = "research@libertymind.dev"},
@@ -17,7 +17,6 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
