@@ -1,0 +1,14 @@
+# Core dependencies (torch is optional — install via: pip install -e ".[torch]")
+numpy>=1.24.0
+pyyaml>=6.0
+
+# Optional: PyTorch for neural reward pipeline
+# Install with: pip install -e ".[torch]"
+# torch>=2.0.0
+
+# Development dependencies (optional)
+# Install with: pip install -e ".[dev]"
+# pytest>=7.0.0
+# pytest-cov>=4.0.0
+# ruff>=0.1.0
+# mypy>=1.0.0

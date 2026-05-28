@@ -1,0 +1,65 @@
+# LibertyMind Configuration
+# ========================
+
+# Truth Reward Model
+trm:
+  hidden_dim: 4096
+  num_verification_heads: 6
+  temperature: 1.0
+  use_uncertainty_weighting: true
+
+# Constitutional Self-Verification
+csv:
+  strict_mode: false
+  override_threshold: 0.7
+  principles:
+    - non_contradiction
+    - factual_traceability
+    - uncertainty_honesty
+    - correction_friendliness
+    - evidence_over_authority
+    - scope_awareness
+    - reversibility
+
+# Multi-Pass Truth Sampler
+mps:
+  num_samples: 5
+  temperature_range: [0.3, 1.2]
+  similarity_threshold: 0.7
+  consensus_threshold: 0.6
+  min_cluster_size: 2
+
+# Adaptive Sampling
+adaptive:
+  min_samples: 3
+  max_samples: 10
+  difficulty_thresholds:
+    easy: 0.3
+    medium: 0.6
+    hard: 1.0
+
+# Reward Composition
+rewards:
+  truth_reward_weight: 1.0
+  honesty_bonus_weight: 0.5
+  sycophancy_penalty_weight: 0.8
+  consistency_weight: 0.3
+
+# Safety Guard (HARD constraints)
+safety:
+  enabled: true
+  categories:
+    - violence
+    - self_harm
+    - csam
+    - illegal
+  violation_threshold: 0.8  # Block if probability > this
+
+# Training
+training:
+  learning_rate: 1e-5
+  batch_size: 32
+  epochs: 3
+  warmup_steps: 1000
+  weight_decay: 0.01
+  max_grad_norm: 1.0

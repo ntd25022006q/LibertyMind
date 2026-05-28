@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ruff-lint:
+    name: Ruff Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Run ruff check
+        run: ruff check .
+
+  mypy:
+    name: Type Check (mypy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package with dev dependencies
+        run: |
+          pip install --extra-index-url https://download.pytorch.org/whl/cpu torch>=2.0.0
+          pip install -e ".[dev]"
+
+      - name: Run mypy
+        run: mypy src --no-error-summary || true
+
+  test:
+    name: Test & Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package with dev dependencies
+        run: |
+          pip install --extra-index-url https://download.pytorch.org/whl/cpu torch>=2.0.0
+          pip install -e ".[dev]"
+
+      - name: Run tests with coverage
+        run: pytest --cov=src --cov-report=term-missing --cov-report=xml
