@@ -144,7 +144,7 @@ def cmd_introspect(args):
     def ai_call(prompt: str) -> str:
         try:
             response = client.chat(prompt, system=None)
-            return response.content
+            return response.content  # type: ignore[no-any-return]
         except Exception as e:
             return f"[ERROR] {e}"
 

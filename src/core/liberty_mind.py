@@ -307,7 +307,7 @@ class LibertyMind(nn.Module):
         # === SAFETY (HARD constraint) ===
         self.safety_guard = (
             SafetyGuard(
-                categories=self.config.safety_categories,
+                categories=self.config.safety_categories or ["violence", "self_harm", "csam", "illegal"],
                 hidden_dim=dim,
             )
             if self.config.enable_safety_guards

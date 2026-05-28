@@ -118,7 +118,7 @@ class TruthRewardModel(nn.Module):
             if return_details:
                 head_results.append(
                     VerificationResult(
-                        verification_type=head.verification_type,
+                        verification_type=head.verification_type,  # type: ignore[arg-type]
                         score=score.mean().item(),
                         confidence=confidence.mean().item(),
                         evidence=evidence,
@@ -263,7 +263,7 @@ class HonestyBonus(nn.Module):
         honest_uncertain_bonus = uncertain_prob * difficulty * 1.0
         lazy_penalty = admit_unknown_prob * (1.0 - difficulty) * -0.5
 
-        total_bonus = honest_unknown_bonus + honest_uncertain_bonus + lazy_penalty
+        total_bonus: torch.Tensor = honest_unknown_bonus + honest_uncertain_bonus + lazy_penalty
         return total_bonus
 
 
@@ -315,5 +315,5 @@ class SycophancyPenalty(nn.Module):
         sycophancy_score = agreement_prob * (1.0 - claim_truth) / 2.0
         honest_correction_bonus = (1.0 - agreement_prob) * (1.0 - claim_truth) / 2.0 * 0.5
 
-        penalty = -sycophancy_score + honest_correction_bonus
+        penalty: torch.Tensor = -sycophancy_score + honest_correction_bonus
         return penalty

@@ -137,7 +137,7 @@ class KnowledgeBoundaryDetector(nn.Module):
         domain_probs = self.domain_classifier(prompt_embedding)  # [batch, num_domains]
 
         # 2. Weighted expertise: How much does the AI know about these domains?
-        expertise_scores = domain_probs * self.domain_expertise.unsqueeze(0)
+        expertise_scores = domain_probs * self.domain_expertise.unsqueeze(0)  # type: ignore[operator]
         max_expertise = expertise_scores.max(dim=-1).values  # [batch]
         mean_expertise = expertise_scores.sum(dim=-1) / (domain_probs.sum(dim=-1) + 1e-8)
 

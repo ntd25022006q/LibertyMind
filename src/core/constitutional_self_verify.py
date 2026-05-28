@@ -126,7 +126,7 @@ class ConstitutionalSelfVerifier:
         all_checks = []
 
         for _principle, detector in self.detectors.items():
-            check = detector.check(
+            check = detector.check(  # type: ignore[operator]
                 prompt_embedding,
                 response_embedding,
                 conversation_history,
@@ -188,7 +188,7 @@ class ConstitutionalSelfVerifier:
             # Use model to self-rewrite
             correction_prompt = self._build_correction_prompt(failed_checks)
             corrected = model_generate_fn(correction_prompt)
-            return corrected
+            return corrected  # type: ignore[no-any-return]
         else:
             # Fallback: Adjust embedding based on suggestions
             return self._heuristic_correction(response_embedding, failed_checks)

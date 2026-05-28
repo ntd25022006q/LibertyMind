@@ -155,7 +155,7 @@ class AntiHallucinationVerifier(nn.Module):
         Returns:
             risk: 0→1 (0 = safe, 1 = high hallucination risk)
         """
-        return self.pre_gen_predictor(prompt_embedding).item()
+        return self.pre_gen_predictor(prompt_embedding).item()  # type: ignore[no-any-return]
 
 
 # ============================================================
