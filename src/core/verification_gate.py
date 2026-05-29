@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Verification Gate (VG)
 ======================================
@@ -20,9 +19,10 @@ VerificationGate solution:
 Principle: "No verification = No output"
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -332,7 +332,7 @@ class CrossReferenceValidator(nn.Module):
     def forward(
         self,
         response_embedding: torch.Tensor,
-        source_embeddings: Optional[list[torch.Tensor]] = None,
+        source_embeddings: list[torch.Tensor] | None = None,
     ) -> dict:
         """
         Args:
@@ -417,7 +417,7 @@ class VerificationGate(nn.Module):
         self,
         query_embedding: torch.Tensor,
         response_embedding: torch.Tensor,
-        source_embeddings: Optional[list[torch.Tensor]] = None,
+        source_embeddings: list[torch.Tensor] | None = None,
     ) -> VerificationReport:
         """
         Args:

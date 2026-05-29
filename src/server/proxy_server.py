@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind — Proxy Server v0.1.0
 ==================================
@@ -30,6 +29,7 @@ Architecture:
          [Analyze response]
          [Return enhanced response]
 """
+
 
 from __future__ import annotations
 

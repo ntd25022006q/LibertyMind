@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind — Multi-Provider Client v0.1.0
 ===========================================
@@ -30,6 +29,7 @@ Usage:
     # Chat with LibertyMind pipeline
     response = client.liberty_chat("What is quantum entanglement?")
 """
+
 
 from __future__ import annotations
 

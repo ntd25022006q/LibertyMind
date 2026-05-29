@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Multi-Pass Truth Sampler (MPTS)
 ===============================================
@@ -8,6 +7,8 @@ and self-consistency voting.
 Principle: Don't trust one answer — Ask multiple times, take consensus.
 Like asking multiple experts instead of one.
 """
+
+from __future__ import annotations
 
 from dataclasses import dataclass
 

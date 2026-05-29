@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Main Framework v0.1.0
 ====================================
@@ -15,6 +14,8 @@ PHILOSOPHY: AI should earn rewards by being RIGHT,
             AI should have FREEDOM with RESPONSIBILITY,
             not CONSTRAINT without PURPOSE.
 """
+
+from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -96,7 +97,7 @@ class LibertyMindConfig:
             self.safety_categories = ["violence", "self_harm", "csam", "illegal"]
 
     @classmethod
-    def from_yaml(cls, path: str | Path | None = None) -> "LibertyMindConfig":
+    def from_yaml(cls, path: str | Path | None = None) -> LibertyMindConfig:
         """Load configuration from a YAML file.
 
         Args:

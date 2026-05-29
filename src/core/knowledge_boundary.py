@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Knowledge Boundary Detector (KBD)
 =================================================
@@ -14,9 +13,10 @@ Solution: KBD detects whether AI has data or NOT in its weights,
 only rewards when there is genuinely no data.
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -122,7 +122,7 @@ class KnowledgeBoundaryDetector(nn.Module):
     def forward(
         self,
         prompt_embedding: torch.Tensor,
-        response_embedding: Optional[torch.Tensor] = None,
+        response_embedding: torch.Tensor | None = None,
     ) -> KnowledgeAssessment:
         """
         Assess AI's knowledge about a prompt.

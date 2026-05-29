@@ -31,6 +31,7 @@ Usage:
     print(report.to_dict())
 """
 
+
 from __future__ import annotations
 
 import re

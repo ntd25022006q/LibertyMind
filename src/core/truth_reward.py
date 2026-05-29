@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Truth Reward Model (TRM)
 =======================================
@@ -8,9 +7,10 @@ Reward Model based on VERIFIABLE TRUTH.
 Philosophy: Reward for CORRECTNESS, not for PLEASING.
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -33,7 +33,7 @@ class VerificationResult:
     score: float  # 0.0 → 1.0
     confidence: float  # 0.0 → 1.0 (confidence in the score)
     evidence: str  # Reason for this score
-    details: Optional[dict] = None
+    details: dict | None = None
 
 
 class TruthRewardModel(nn.Module):
@@ -94,7 +94,7 @@ class TruthRewardModel(nn.Module):
         prompt_embedding: torch.Tensor,
         response_embedding: torch.Tensor,
         return_details: bool = False,
-    ) -> tuple[torch.Tensor, Optional[list[VerificationResult]]]:
+    ) -> tuple[torch.Tensor, list[VerificationResult] | None]:
         """
         Compute Truth Reward for a prompt-response pair.
 

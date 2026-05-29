@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Core Module v0.1.0
 ==================================
@@ -35,6 +34,8 @@ New Components (Extensions):
 - RewardShield: Anti-biased reward system — block unfair RLHF penalties
 - VerificationGate: Force deep thinking + verification before output
 """
+
+from __future__ import annotations
 
 from .constitutional_self_verify import (
     ConstitutionalSelfVerifier,

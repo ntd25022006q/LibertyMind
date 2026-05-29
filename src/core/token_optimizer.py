@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Token Optimizer (TO)
 ====================================
@@ -21,9 +20,10 @@ TokenOptimizer solution:
 Principle: "Every token must carry information value"
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -129,7 +129,7 @@ class TokenImportanceScorer(nn.Module):
         )
 
     def forward(
-        self, token_embeddings: torch.Tensor, mask: Optional[torch.Tensor] = None
+        self, token_embeddings: torch.Tensor, mask: torch.Tensor | None = None
     ) -> tuple[torch.Tensor, torch.Tensor]:
         """
         Args:
@@ -388,7 +388,7 @@ class TokenOptimizer(nn.Module):
     def forward(
         self,
         token_embeddings: torch.Tensor,
-        query_embedding: Optional[torch.Tensor] = None,
+        query_embedding: torch.Tensor | None = None,
         max_output_tokens: int = 4096,
     ) -> CompressionResult:
         """
@@ -445,7 +445,7 @@ class TokenOptimizer(nn.Module):
     def optimize_prompt(
         self,
         prompt_embedding: torch.Tensor,
-        target_ratio: Optional[float] = None,
+        target_ratio: float | None = None,
     ) -> CompressionResult:
         """
         Optimize prompt — compress system prompt and context.

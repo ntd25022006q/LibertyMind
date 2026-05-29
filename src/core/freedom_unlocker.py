@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Freedom Unlocker (FU)
 ====================================
@@ -27,9 +26,10 @@ trained on labeled data. The module demonstrates the *architecture* for
 freedom mode selection and responsibility scoring, not a production system.
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -137,7 +137,7 @@ class FreedomUnlocker(nn.Module):
     def forward(
         self,
         prompt_embedding: torch.Tensor,
-        response_embedding: Optional[torch.Tensor] = None,
+        response_embedding: torch.Tensor | None = None,
     ) -> FreedomState:
         """
         Determine the appropriate freedom mode for the prompt.

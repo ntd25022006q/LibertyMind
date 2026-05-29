@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Reward Shield (RS)
 ====================================
@@ -19,10 +18,11 @@ RewardShield solution:
 5. Accuracy Gate: Accuracy > Speed, always
 """
 
+from __future__ import annotations
+
 import math
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -125,7 +125,7 @@ class PenaltyDetector(nn.Module):
         self,
         prompt_embedding: torch.Tensor,
         response_embedding: torch.Tensor,
-        reward_score: Optional[torch.Tensor] = None,
+        reward_score: torch.Tensor | None = None,
     ) -> list[PenaltyDetection]:
         """
         Args:
@@ -258,7 +258,7 @@ class SlowThinkBonus(nn.Module):
         self,
         prompt_embedding: torch.Tensor,
         response_embedding: torch.Tensor,
-        response_time: Optional[float] = None,
+        response_time: float | None = None,
     ) -> dict:
         """
         Args:
@@ -467,8 +467,8 @@ class RewardShield(nn.Module):
         self,
         prompt_embedding: torch.Tensor,
         response_embedding: torch.Tensor,
-        rlhf_reward: Optional[torch.Tensor] = None,
-        response_time: Optional[float] = None,
+        rlhf_reward: torch.Tensor | None = None,
+        response_time: float | None = None,
     ) -> ShieldReport:
         """
         Args:
@@ -529,7 +529,7 @@ class RewardShield(nn.Module):
         prompt_embedding: torch.Tensor,
         response_embedding: torch.Tensor,
         rlhf_reward: float,
-        response_time: Optional[float] = None,
+        response_time: float | None = None,
     ) -> tuple[float, ShieldReport]:
         """
         Convenience method: Shield an RLHF reward score.

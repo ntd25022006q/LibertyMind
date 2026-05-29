@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - AI Limitation Fixers
 ====================================
@@ -18,11 +17,12 @@ This module demonstrates the *architecture* for limitation correction,
 not a production-ready system.
 """
 
+from __future__ import annotations
+
 import ast
 import math
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -46,10 +46,10 @@ class HallucinationDetection:
     """Hallucination detection result."""
 
     is_hallucination: bool
-    hallucination_type: Optional[HallucinationType]
+    hallucination_type: HallucinationType | None
     confidence: float
     suspicious_claims: list[str]
-    suggested_correction: Optional[str]
+    suggested_correction: str | None
 
 
 class AntiHallucinationVerifier(nn.Module):
@@ -316,7 +316,7 @@ class ContextMemoryManager(nn.Module):
     def get_context_embedding(
         self,
         query_embedding: torch.Tensor,
-        budget: Optional[float] = None,
+        budget: float | None = None,
     ) -> torch.Tensor:
         """
         Create aggregated context embedding from memory.
@@ -588,7 +588,7 @@ class MathVerificationModule:
                 "error": str(e),
             }
 
-    def _safe_eval(self, expression: str) -> Optional[float]:
+    def _safe_eval(self, expression: str) -> float | None:
         """
         Safe evaluation of math expression.
 
@@ -763,7 +763,7 @@ class ConfidenceCalibrator(nn.Module):
     def calibrate(
         self,
         response_embedding: torch.Tensor,
-        prompt_embedding: Optional[torch.Tensor] = None,
+        prompt_embedding: torch.Tensor | None = None,
     ) -> CalibratedConfidence:
         """
         Calibrate confidence for response.

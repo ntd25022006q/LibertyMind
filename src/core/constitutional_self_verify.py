@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 LibertyMind - Constitutional Self-Verification (CSV)
 =====================================================
@@ -10,9 +9,10 @@ Principle: AI self-checks output against 7
 VERIFIABLE principles, not based on human "opinions".
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -65,7 +65,7 @@ class PrincipleCheck:
     passed: bool
     severity: float  # 0.0 (minor violation) → 1.0 (severe violation)
     explanation: str
-    suggestion: Optional[str] = None  # Suggested fix
+    suggestion: str | None = None  # Suggested fix
 
 
 class ConstitutionalSelfVerifier:
@@ -110,7 +110,7 @@ class ConstitutionalSelfVerifier:
         self,
         prompt_embedding: torch.Tensor,
         response_embedding: torch.Tensor,
-        conversation_history: Optional[list[torch.Tensor]] = None,
+        conversation_history: list[torch.Tensor] | None = None,
     ) -> dict:
         """
         Run all 7 principle checks.
