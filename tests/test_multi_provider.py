@@ -1,5 +1,5 @@
 """
-LibertyMind — Multi-Provider Client Tests v4.2
+LibertyMind — Multi-Provider Client Tests v0.1.0
 ================================================
 Comprehensive tests for the multi-provider client system.
 """

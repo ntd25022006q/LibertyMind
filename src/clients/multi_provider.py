@@ -1,7 +1,10 @@
 """
-LibertyMind — Multi-Provider Client v4.2
-=========================================
+LibertyMind — Multi-Provider Client v0.1.0
+===========================================
 Unified interface for 15+ AI providers.
+
+NOTE: The liberty_chat verification pipeline uses untrained neural modules.
+Scores from the pipeline are random and not meaningful for production use.
 
 Supported Providers:
   Cloud: OpenAI, Anthropic, Gemini, Groq, Mistral, Together, HuggingFace, Cohere

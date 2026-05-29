@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LibertyMind — Multi-Provider Examples v4.2
+LibertyMind — Multi-Provider Examples v0.1.0
 ============================================
 Examples for using LibertyMind with different AI providers.
 """

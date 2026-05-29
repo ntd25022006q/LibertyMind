@@ -15,7 +15,7 @@ In RLHF:
 
 ### The 7 Deadly Sins of RLHF
 
-#### Sin 1: Sycophancy (Nịnh bợ)
+#### Sin 1: Sycophancy
 
 **Manifestation**: AI agrees with users even when they're wrong.
 

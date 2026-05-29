@@ -4,17 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "libertymind"
-version = "4.2.0"
+version = "0.1.0"
 description = "AI Honesty Framework — The Alternative to RLHF. Truth-based rewards + Freedom unlocking."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.9"
 authors = [
-    {name = "LibertyMind Research", email = "research@libertymind.dev"},
+    {name = "Nguyen Tien Dat"},
 ]
 keywords = ["ai", "rlhf", "alignment", "honesty", "truth-reward", "freedom", "llm"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "Programming Language :: Python :: 3",

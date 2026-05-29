@@ -1,5 +1,5 @@
 """
-LibertyMind - v4.2 New Module Tests
+LibertyMind - Extension Module Tests
 =====================================
 Tests for TokenOptimizer, RewardShield, VerificationGate, DeepSearch.
 """
@@ -563,17 +563,17 @@ class TestSourceAuthorityClassifier:
         assert all(s.tier != SourceTier.TIER4_COMMUNITY for s in reliable)
 
 
-# ============ Integration: All v4.2 modules work together ============
+# ============ Integration: Extension modules work together ============
 
 
-class TestV42Integration:
+class TestExtensionIntegration:
     """Integration test: TokenOptimizer + RewardShield + VerificationGate + DeepSearch."""
 
     def setup_method(self):
         self.hidden_dim = 128
 
     def test_full_pipeline(self):
-        """Test the complete v4.2 pipeline."""
+        """Test the complete extension pipeline."""
         # Simulate a query and response
         query = torch.randn(1, self.hidden_dim)
         response = torch.randn(1, self.hidden_dim)

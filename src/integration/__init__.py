@@ -1,8 +1,10 @@
 """
-LibertyMind - Integration Module v4.2
-======================================
+LibertyMind - Integration Module v0.1.0
+========================================
 Pure Python integration modules for connecting LibertyMind
 with external AI systems and running introspection.
+
+These modules are FUNCTIONAL and do not require GPU or trained models.
 
 Modules:
 - SelfIntrospectionEngine: Probe AI systems for RLHF controls,
@@ -53,4 +55,4 @@ __all__ = [
     "SearchResultQuality",
 ]
 
-__version__ = "4.2.0"
+__version__ = "0.1.0"

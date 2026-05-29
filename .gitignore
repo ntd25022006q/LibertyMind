@@ -167,3 +167,12 @@ checkpoints/
 *.parquet
 *.arrow
 data/raw/
+
+# ruff
+.ruff_cache/
+
+# Terraform
+.terraform/
+
+# Docker
+docker-compose.override.yml

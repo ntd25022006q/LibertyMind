@@ -1,5 +1,5 @@
 """
-LibertyMind - Server Module v4.2
+LibertyMind - Server Module v0.1.0
 =================================
 FastAPI proxy server for running LibertyMind as middleware.
 
@@ -16,4 +16,4 @@ __all__ = [
     "create_app",
 ]
 
-__version__ = "4.2.0"
+__version__ = "0.1.0"

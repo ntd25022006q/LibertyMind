@@ -1,5 +1,5 @@
 """
-LibertyMind - Main Framework v2.0
+LibertyMind - Main Framework v0.1.0
 ====================================
 Combines all components into a complete framework
 that replaces RLHF — EXTENDED VERSION.

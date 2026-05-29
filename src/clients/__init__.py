@@ -1,5 +1,5 @@
 """
-LibertyMind - Clients Module v4.2
+LibertyMind - Clients Module v0.1.0
 ==================================
 Multi-provider AI client adapters.
 
@@ -15,4 +15,4 @@ __all__ = [
     "MultiProviderClient",
 ]
 
-__version__ = "4.2.0"
+__version__ = "0.1.0"

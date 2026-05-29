@@ -1,6 +1,9 @@
 """
-LibertyMind - Core Module v4.2
-================================
+LibertyMind - Core Module v0.1.0
+==================================
+
+WARNING: All PyTorch nn.Module components are UNTRAINED scaffolding.
+Their outputs are random and not meaningful for production use.
 
 A framework to replace RLHF with truth-based rewards + freedom unlocking.
 
@@ -26,7 +29,7 @@ Components (v2):
 - MathVerificationModule: Real computation instead of guessing
 - ConfidenceCalibrator: Calibrate confidence vs reality
 
-New Components (v4.2):
+New Components (Extensions):
 - TokenOptimizer: Token reduction algorithm — minimize tokens by every means
 - RewardShield: Anti-biased reward system — block unfair RLHF penalties
 - VerificationGate: Force deep thinking + verification before output
@@ -152,7 +155,7 @@ __all__ = [
     "MathVerificationModule",
     "ConfidenceCalibrator",
     "CalibratedConfidence",
-    # v4.2 Token Optimizer
+    # Token Optimizer
     "TokenOptimizer",
     "TokenImportanceScorer",
     "SemanticCompressor",
@@ -162,7 +165,7 @@ __all__ = [
     "CompressionResult",
     "TokenBudget",
     "TokenType",
-    # v4.2 Reward Shield
+    # Reward Shield
     "RewardShield",
     "PenaltyDetector",
     "PenaltyDetection",
@@ -171,7 +174,7 @@ __all__ = [
     "ShieldReport",
     "SlowThinkBonus",
     "AccuracyGate",
-    # v4.2 Verification Gate
+    # Verification Gate
     "VerificationGate",
     "ThinkingDepthEstimator",
     "ClaimVerifier",
@@ -183,5 +186,5 @@ __all__ = [
     "ClaimStrength",
 ]
 
-__version__ = "4.2.0"
-__author__ = "LibertyMind Research"
+__version__ = "0.1.0"
+__author__ = "Nguyen Tien Dat"

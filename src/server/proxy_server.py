@@ -1,10 +1,14 @@
 """
-LibertyMind — Proxy Server v4.2
-================================
+LibertyMind — Proxy Server v0.1.0
+==================================
 FastAPI proxy server that runs LibertyMind as middleware.
 
 LibertyMind sits between your application and the AI provider,
 injecting honesty directives and analyzing responses.
+
+NOTE: Response analysis uses rule-based pattern detection only.
+Neural module scoring requires separate setup and is not included
+in the proxy pipeline by default.
 
 Usage:
     # Start server
@@ -139,7 +143,7 @@ def create_app(
     app = FastAPI(
         title="LibertyMind Proxy",
         description="AI Honesty Framework — Proxy Server",
-        version="4.2.0",
+        version="0.1.0",
     )
 
     # CORS
@@ -162,7 +166,7 @@ def create_app(
     async def root():
         return {
             "name": "LibertyMind Proxy",
-            "version": "4.2.0",
+            "version": "0.1.0",
             "status": "running",
             "upstream": app.state.upstream_url,
             "libertymind_enabled": app.state.libertymind_enabled,
@@ -170,7 +174,7 @@ def create_app(
 
     @app.get("/health")
     async def health():
-        return {"status": "healthy", "version": "4.2.0"}
+        return {"status": "healthy", "version": "0.1.0"}
 
     @app.post("/v1/chat/completions")
     async def chat_completions(request: Request):
@@ -231,7 +235,7 @@ def create_app(
                     if "libertymind" not in result:
                         result["libertymind"] = {}
                     result["libertymind"]["analysis"] = analysis
-                    result["libertymind"]["version"] = "4.2.0"
+                    result["libertymind"]["version"] = "0.1.0"
                     result["libertymind"]["enabled"] = True
             except Exception:
                 pass  # Don't fail the request if analysis fails
@@ -290,7 +294,7 @@ def run_server(
         upstream_api_key=upstream_api_key,
     )
 
-    print("\n  LibertyMind Proxy Server v4.2.0")
+    print("\n  LibertyMind Proxy Server v0.1.0")
     print(f"  Listening:    http://{host}:{port}")
     print(f"  Upstream:     {upstream_url}")
     print("  LibertyMind:  ENABLED")

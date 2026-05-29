@@ -1,84 +1,98 @@
 # Contributing to LibertyMind
 
-First off, thank you for considering contributing to LibertyMind! It's people like you that make LibertyMind such a great tool.
+Thank you for considering a contribution to LibertyMind. This document outlines the process and expectations for contributing to this project.
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by the principle of **honest and respectful collaboration**. Be constructive, be honest, be kind.
+This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you agree to uphold its standards. Be constructive, be honest, be respectful.
 
-## How Can I Contribute?
+## How to Contribute
 
 ### Reporting Bugs
 
-Before creating bug reports, please check the existing issues. When you create a bug report, include:
+Before creating a bug report, please search the existing issues to avoid duplicates. When you file a bug, include:
 
-- **Clear title and description**
-- **Steps to reproduce** the problem
-- **Expected behavior** vs **actual behavior**
+- **Clear title and description** of the problem
+- **Steps to reproduce** the issue
+- **Expected behavior** vs. **actual behavior**
 - **Environment details** (Python version, OS, PyTorch version)
-- **Error logs** if applicable
+- **Error logs** or stack traces if applicable
 
 ### Suggesting Enhancements
 
-Enhancement suggestions are tracked as GitHub issues. Include:
+Enhancement suggestions are tracked as GitHub issues. Please include:
 
-- **Use case** — why is this enhancement useful?
-- **Expected behavior** — what should it do?
-- **Current workaround** — is there an alternative today?
+- **Use case** -- why is this enhancement useful?
+- **Expected behavior** -- what should it do?
+- **Current workaround** -- is there an alternative today?
 
 ### Pull Requests
 
-1. Fork the repo and create your branch from `main`
-2. If you've added code, add tests
+1. Fork the repository and create your branch from `main`
+2. If you have added code, add corresponding tests
 3. Ensure the test suite passes (`pytest tests/ -v`)
-4. Make sure your code lints (`ruff check src/`)
-5. Write a clear commit message
+4. Ensure your code passes linting (`ruff check src/ tests/`)
+5. Write a clear, descriptive commit message
+6. Open a pull request against the `main` branch
 
 ## Development Setup
 
 ```bash
-# Clone
+# Clone the repository
 git clone https://github.com/ntd25022006q/LibertyMind.git
 cd LibertyMind
 
-# Create virtual environment
+# Create a virtual environment
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
+source venv/bin/activate  # Linux/macOS
 # venv\Scripts\activate   # Windows
 
-# Install with dev dependencies
+# Install with development dependencies
 pip install -e ".[dev]"
 
-# Run tests
+# Install PyTorch (optional, for neural modules)
+pip install -e ".[torch]"
+
+# Run the test suite
 pytest tests/ -v
 
-# Lint
-ruff check src/
+# Run the linter
+ruff check src/ tests/
 ```
 
 ## Coding Standards
 
-- **Python 3.9+** compatibility
-- **Type hints** for all public functions
-- **Docstrings** for all modules, classes, and public functions
-- **Tests** for all new features
-- **No hardcoded secrets** — use environment variables
+- **Python 3.9+** compatibility is required
+- **Type hints** for all public functions and class methods
+- **Docstrings** for all modules, classes, and public functions (Google style)
+- **Tests** for all new features or bug fixes
+- **No hardcoded secrets** -- use environment variables for all credentials
 
-## Architecture
+## Architecture Overview
 
-- `src/core/` — PyTorch `nn.Module` components (must be differentiable)
-- `src/integration/` — Pure Python integration modules
-- `src/clients/` — Provider adapters
-- `src/server/` — FastAPI server
-- `tests/` — Test suite
+- `src/core/` -- PyTorch `nn.Module` components (must be differentiable)
+- `src/integration/` -- Pure Python integration modules (no GPU required)
+- `src/clients/` -- Provider adapters for multi-provider support
+- `src/server/` -- FastAPI proxy server
+- `tests/` -- Test suite
+
+## Priority Areas for Contribution
+
+The following areas are especially valuable:
+
+1. **Training data and training loops** -- This is the single most important missing piece. Without labeled training data, the neural modules remain non-functional scaffolding.
+2. **New provider adapters** -- The adapter architecture makes adding new providers straightforward.
+3. **Edge case coverage** -- Especially for the AST evaluator and regex pattern detectors.
+4. **Benchmarking** -- Quantitative comparisons of LibertyMind-primed vs. unprimed LLM responses.
+5. **Documentation** -- Tutorials, API reference improvements, and real-world usage examples.
 
 ## Commit Messages
 
 - Use the present tense ("Add feature" not "Added feature")
 - Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 - Limit the first line to 72 characters
-- Reference issues and pull requests liberally
+- Reference issues and pull requests where applicable
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+By contributing to this project, you agree that your contributions will be licensed under the [MIT License](LICENSE).

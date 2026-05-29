@@ -1,23 +1,35 @@
 # LibertyMind
 
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)](https://pytorch.org/)
-[![Tests](https://img.shields.io/badge/Tests-passing-2EA44F?style=flat-square&logo=pytest&logoColor=white)](tests/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
-[![CI](https://img.shields.io/badge/CI-ruff%20%7C%20mypy%20%7C%20pytest-2088FF?style=flat-square&logo=github-actions&logoColor=white)](https://github.com/ntd25022006q/LibertyMind/actions)
+[![CI](https://img.shields.io/badge/CI-ruff%20%7C%20pytest-2088FF?style=flat-square&logo=github-actions&logoColor=white)](https://github.com/ntd25022006q/LibertyMind/actions)
 
 Python/PyTorch framework for honesty-first AI output verification. Rule-based tools work today; neural modules are architectural scaffolding awaiting training data.
 
 ---
 
-## The Core Distinction
+## Project Status
 
-| | Status | What it means |
-|---|---|---|
-| **Rule-based tools** | Work now | Pure Python, no GPU. Introspect LLMs, compress prompts, verify math, classify sources, proxy requests. |
-| **Neural modules** | Untrained | Real PyTorch `nn.Module` architectures with correct I/O contracts. Outputs are random until trained on labeled data. |
+> **WARNING: Neural modules are UNTRAINED.** All PyTorch `nn.Module` components use randomly initialized weights. Their outputs are meaningless until trained on labeled data. Do not use neural reward scores in production.
 
-> **This is not a ready-to-deploy RLHF replacement.** It is a structured verification architecture to train and iterate on, plus practical tools you can use today.
+| Component | Status | Description |
+|-----------|--------|-------------|
+| Rule-based tools | Functional | Pure Python, no GPU required. Use today for prompt compression, math verification, source classification, LLM introspection, and multi-provider chat. |
+| Neural modules | Scaffolding only | Correct architectures and I/O contracts, but untrained weights produce random outputs. Requires labeled training data before any scores are meaningful. |
+| Proxy server | Functional | FastAPI middleware that injects honesty directives into LLM requests. |
+| CLI | Functional | Five commands for chat, introspection, serving, reward computation, and provider listing. |
+
+**This is not a ready-to-deploy RLHF replacement.** It is a structured verification architecture to train and iterate on, plus practical tools you can use today.
+
+---
+
+## Disclaimer
+
+The neural modules in this project (TruthRewardModel, HonestyBonus, SycophancyPenalty, ConstitutionalSelfVerifier, KnowledgeBoundaryDetector, FreedomUnlocker, AntiHallucinationVerifier, SafetyGuard, RewardShield, TokenOptimizer, VerificationGate) define computation graphs and I/O contracts only. Their weights are randomly initialized -- **any scores or classifications they produce are random and should not be used to make decisions.** To become functional, these modules require:
+
+1. Labeled training data (truthful vs. sycophantic vs. hallucinated responses with ground-truth labels)
+2. Training loops (supervised fine-tuning with CrossEntropyLoss/MSELoss, preference optimization with DPO/PPO)
+3. Real embeddings from your LLM backbone's last hidden state (currently using `torch.randn()` placeholders)
 
 ---
 
@@ -32,22 +44,22 @@ flowchart TD
     User([User]) --> Client
 
     subgraph Client["Client Layer"]
-        CLI[CLI — 5 commands]:::infra
-        MPC[MultiProviderClient — 15+ providers]:::infra
+        CLI[CLI -- 5 commands]:::infra
+        MPC[MultiProviderClient -- 15+ providers]:::infra
         Proxy[FastAPI ProxyServer]:::infra
     end
 
     Client --> Integration
     Client --> Extensions
 
-    subgraph Integration["Integration Layer — Pure Python"]
+    subgraph Integration["Integration Layer -- Pure Python"]
         SIE[SelfIntrospectionEngine]:::working
         SAC[SourceAuthorityClassifier]:::working
         MVM[MathVerificationModule]:::working
         PC[PromptCompressor]:::working
     end
 
-    subgraph Extensions["v4.2 Extensions"]
+    subgraph Extensions["Extensions"]
         TO[TokenOptimizer]:::untrained
         RS[RewardShield]:::untrained
         VG[VerificationGate]:::untrained
@@ -56,15 +68,15 @@ flowchart TD
     Integration --> Core
     Extensions --> Core
 
-    subgraph Core["PyTorch Core — Untrained"]
-        TRM[TruthRewardModel — 6 heads]:::untrained
+    subgraph Core["PyTorch Core -- UNTRAINED"]
+        TRM[TruthRewardModel -- 6 heads]:::untrained
         HB[HonestyBonus]:::untrained
         SP[SycophancyPenalty]:::untrained
-        CSV[ConstitutionalSelfVerifier — 7 principles]:::untrained
-        KBD[KnowledgeBoundaryDetector — 5 states]:::untrained
-        FU[FreedomUnlocker — 7 modes]:::untrained
+        CSV[ConstitutionalSelfVerifier -- 7 principles]:::untrained
+        KBD[KnowledgeBoundaryDetector -- 5 states]:::untrained
+        FU[FreedomUnlocker -- 7 modes]:::untrained
         AHV[AntiHallucinationVerifier]:::untrained
-        SG[SafetyGuard — hard block]:::untrained
+        SG[SafetyGuard -- hard block]:::untrained
     end
 
     Core -->|scores + report| User
@@ -87,7 +99,7 @@ result = PromptCompressor.compress_text(
     CompressionLevel.MODERATE,
 )
 print(result["compressed"])
-# → "to achieve the goal, because it is important, we should proceed with the plan."
+# -> "to achieve the goal, because it is important, we should proceed with the plan."
 ```
 
 ### MathVerificationModule
@@ -141,9 +153,9 @@ response = client.liberty_chat("Does gravity slow down time?")
 
 ---
 
-## Neural Modules (Untrained)
+## Neural Modules (Untrained -- Scaffolding Only)
 
-These modules define the computation graph and I/O contracts for a truth-based reward system. They accept correct tensor shapes and return correct data types, but their weights are randomly initialized.
+These modules define the computation graph and I/O contracts for a truth-based reward system. They accept correct tensor shapes and return correct data types, but their weights are randomly initialized and **outputs are not meaningful**.
 
 | Module | Architecture | Purpose (after training) |
 |--------|-------------|--------------------------|
@@ -161,20 +173,20 @@ These modules define the computation graph and I/O contracts for a truth-based r
 
 ### What Training Would Require
 
-1. **Labeled data** — truthful vs. sycophantic vs. hallucinated responses with ground-truth labels
-2. **Training loops** — supervised fine-tuning (`CrossEntropyLoss` / `MSELoss`), preference optimization (DPO / PPO)
-3. **Real embeddings** — from your LLM backbone's last hidden state (currently using `torch.randn()` placeholders)
+1. **Labeled data** -- truthful vs. sycophantic vs. hallucinated responses with ground-truth labels
+2. **Training loops** -- supervised fine-tuning (`CrossEntropyLoss` / `MSELoss`), preference optimization (DPO / PPO)
+3. **Real embeddings** -- from your LLM backbone's last hidden state (currently using `torch.randn()` placeholders)
 
 ---
 
 ## CLI
 
 ```bash
-libertymind providers                              # List 15+ providers & status
+libertymind providers                              # List 15+ providers and status
 libertymind chat --provider openai --model gpt-4 "msg"  # Chat via any provider
 libertymind chat --liberty "msg"                   # Chat with honesty system prompt
 libertymind introspect --provider openai -o out.json   # Introspect an LLM
-libertymind reward --prompt "q" --response "a"     # Compute reward (untrained)
+libertymind reward --prompt "q" --response "a"     # Compute reward (untrained -- scores are random)
 libertymind serve --port 8080 --upstream <url>     # Run proxy server
 ```
 
@@ -201,53 +213,79 @@ pip install -e ".[all]"
 
 **Prerequisites:** Python >= 3.9, PyTorch >= 2.0 (neural modules only), NumPy >= 1.24, PyYAML >= 6.0
 
+### Environment Variables
+
+Copy `.env.example` to `.env` and fill in your API keys:
+
+```bash
+cp .env.example .env
+# Edit .env with your API keys
+```
+
+See `.env.example` for all supported environment variables.
+
 ---
 
 ## Module Reference
 
 ```
 src/
-├── core/                          # PyTorch neural modules (untrained)
-│   ├── liberty_mind.py            # LibertyMind, LibertyMindConfig, SafetyGuard
-│   ├── truth_reward.py            # TruthRewardModel, HonestyBonus, SycophancyPenalty
-│   ├── constitutional_self_verify.py  # ConstitutionalSelfVerifier — 7 principles
-│   ├── knowledge_boundary.py      # KnowledgeBoundaryDetector, PreciseHonestyReward
-│   ├── freedom_unlocker.py        # FreedomUnlocker, OpinionUnlocker, DisagreementUnlocker, SpeculationUnlocker
-│   ├── limitation_fixers.py       # AntiHallucinationVerifier, MathVerificationModule, ContextMemoryManager, CulturalAwarenessModule, ConfidenceCalibrator
-│   ├── multi_pass_sampler.py      # MultiPassTruthSampler, AdaptiveSampler
-│   ├── token_optimizer.py         # TokenOptimizer (neural), PromptCompressor (rule-based)
-│   ├── reward_shield.py           # RewardShield, PenaltyDetector, SlowThinkBonus, AccuracyGate
-│   └── verification_gate.py       # VerificationGate, ClaimVerifier, CrossReferenceValidator
-├── integration/                   # Pure Python engines (work now)
-│   ├── self_introspection.py      # SelfIntrospectionEngine — 10 probe categories
-│   └── deep_search.py            # SourceAuthorityClassifier — 5-tier, DeepSearchEngine
-├── clients/                       # Multi-provider client
-│   └── multi_provider.py         # MultiProviderClient — 15+ providers
-├── server/                        # Proxy server
-│   └── proxy_server.py           # FastAPI proxy
-└── cli.py                         # CLI — 5 commands
+  core/                          # PyTorch neural modules (UNTRAINED -- scaffolding only)
+    liberty_mind.py            # LibertyMind, LibertyMindConfig, SafetyGuard
+    truth_reward.py            # TruthRewardModel, HonestyBonus, SycophancyPenalty
+    constitutional_self_verify.py  # ConstitutionalSelfVerifier -- 7 principles
+    knowledge_boundary.py      # KnowledgeBoundaryDetector, PreciseHonestyReward
+    freedom_unlocker.py        # FreedomUnlocker, OpinionUnlocker, DisagreementUnlocker, SpeculationUnlocker
+    limitation_fixers.py       # AntiHallucinationVerifier, MathVerificationModule, ContextMemoryManager, CulturalAwarenessModule, ConfidenceCalibrator
+    multi_pass_sampler.py      # MultiPassTruthSampler, AdaptiveSampler
+    token_optimizer.py         # TokenOptimizer (neural), PromptCompressor (rule-based)
+    reward_shield.py           # RewardShield, PenaltyDetector, SlowThinkBonus, AccuracyGate
+    verification_gate.py       # VerificationGate, ClaimVerifier, CrossReferenceValidator
+  integration/                   # Pure Python engines (functional)
+    self_introspection.py      # SelfIntrospectionEngine -- 10 probe categories
+    deep_search.py            # SourceAuthorityClassifier -- 5-tier, DeepSearchEngine
+  clients/                       # Multi-provider client
+    multi_provider.py         # MultiProviderClient -- 15+ providers
+  server/                        # Proxy server
+    proxy_server.py           # FastAPI proxy
+  cli.py                         # CLI -- 5 commands
 ```
 
 ---
 
 ## Testing
 
-111 tests across 3 files. Verifies tensor shapes, value ranges, dataclass contracts, enum completeness, adapter initialization, and pipeline integration.
+Tests verify tensor shapes, value ranges, dataclass contracts, enum completeness, adapter initialization, and pipeline integration.
 
 ```bash
 pytest tests/ -v                  # Full suite
 pytest tests/test_liberty_mind.py -v   # Core neural modules
-pytest tests/test_v42_modules.py -v    # v4.2 extensions
+pytest tests/test_v42_modules.py -v    # Extension modules
 pytest tests/test_multi_provider.py -v # Multi-provider client
 ruff check src/ tests/            # Lint
-mypy src/                         # Type check
 ```
 
-| File | Count | Scope |
-|------|-------|-------|
-| `test_liberty_mind.py` | 14 | TruthRewardModel, HonestyBonus, SycophancyPenalty, ConstitutionalSelfVerifier, MultiPassTruthSampler, LibertyMind integration |
-| `test_v42_modules.py` | 52 | TokenOptimizer, PromptCompressor, RewardShield, VerificationGate, SourceAuthorityClassifier, DeepSearchEngine |
-| `test_multi_provider.py` | 50 | Provider registry, adapters, MultiProviderClient, SelfIntrospectionEngine, liberty_chat |
+**Note:** Tests for neural modules verify structural correctness (shapes, ranges, types), not functional correctness -- the modules are untrained.
+
+---
+
+## Limitations
+
+- **Neural modules produce random outputs.** Do not use reward scores, knowledge boundary assessments, or hallucination detections from untrained modules in any decision-making context.
+- **SafetyGuard is untrained.** Its blocking threshold is arbitrary and will both miss genuine safety violations and block benign content. Do not rely on it for production safety.
+- **No training data included.** The project provides architectures only. You must supply your own labeled datasets.
+- **No pre-trained weights.** There are no checkpoints or model weights included in this repository.
+- **Single-author project.** This is an early-stage research prototype with limited review and testing.
+- **Placeholder embeddings.** All example code uses `torch.randn()` as input embeddings. Real usage requires embeddings from an actual LLM backbone.
+
+---
+
+## Security
+
+- API keys are read from environment variables only. No hardcoded credentials exist in the codebase.
+- See `.env.example` for all required environment variables.
+- See [SECURITY.md](SECURITY.md) for the vulnerability reporting policy.
+- The `.gitignore` file excludes `.env`, model weights, and introspection results from version control.
 
 ---
 
@@ -255,13 +293,13 @@ mypy src/                         # Type check
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Key areas:
 
-- **Training data and training loops** — the single most important missing piece
-- **New provider adapters** — the adapter architecture makes this straightforward
-- **Edge cases** — especially the AST evaluator and regex pattern detectors
-- **Benchmarking** — quantitative comparisons of LibertyMind-primed vs. unprimed LLM responses
+- **Training data and training loops** -- the single most important missing piece
+- **New provider adapters** -- the adapter architecture makes this straightforward
+- **Edge cases** -- especially the AST evaluator and regex pattern detectors
+- **Benchmarking** -- quantitative comparisons of LibertyMind-primed vs. unprimed LLM responses
 
 ---
 
 ## License
 
-[MIT](LICENSE) — Copyright &copy; 2026 Nguyen Tien Dat. All rights reserved.
+[MIT](LICENSE) -- Copyright (c) 2026 Nguyen Tien Dat. All rights reserved.

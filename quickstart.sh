@@ -6,7 +6,7 @@
 set -e
 
 echo ""
-echo "  🗽 LibertyMind v4.2 — Quick Start"
+echo "  LibertyMind v0.1.0 — Quick Start"
 echo "  ==================================="
 echo ""
 

@@ -1,7 +1,6 @@
 name: CI
 
 on:
-  workflow_dispatch:
   push:
     branches: [main, develop]
   pull_request:
@@ -28,27 +27,7 @@ jobs:
         run: pip install ruff
 
       - name: Run ruff check
-        run: ruff check .
-
-  mypy:
-    name: Type Check (mypy)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-
-      - name: Install package with dev dependencies
-        run: |
-          pip install --extra-index-url https://download.pytorch.org/whl/cpu torch>=2.0.0
-          pip install -e ".[dev]"
-
-      - name: Run mypy
-        run: mypy src --no-error-summary || true
+        run: ruff check src/ tests/
 
   test:
     name: Test & Coverage
@@ -64,7 +43,7 @@ jobs:
 
       - name: Install package with dev dependencies
         run: |
-          pip install --extra-index-url https://download.pytorch.org/whl/cpu torch>=2.0.0
+          pip install --extra-index-url https://download.pytorch.org/whl/cpu "torch>=2.0.0"
           pip install -e ".[dev]"
 
       - name: Run tests with coverage

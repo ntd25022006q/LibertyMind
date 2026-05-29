@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """
-LibertyMind — CLI v4.2
-=======================
+LibertyMind — CLI v0.1.0
+=========================
 Command-line interface for the LibertyMind AI Honesty Framework.
+
+NOTE: The reward command uses untrained neural modules. Scores are random
+and not meaningful for production use.
 
 Usage:
     libertymind chat --provider openai --model gpt-4 "What is quantum entanglement?"
@@ -246,7 +249,7 @@ def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
         prog="libertymind",
-        description="LibertyMind — AI Honesty Framework v4.2",
+        description="LibertyMind — AI Honesty Framework v0.1.0",
     )
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
