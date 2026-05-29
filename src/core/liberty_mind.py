@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 LibertyMind - Main Framework v0.1.0
 ====================================

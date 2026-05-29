@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 LibertyMind - Freedom Unlocker (FU)
 ====================================

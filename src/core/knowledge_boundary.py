@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 LibertyMind - Knowledge Boundary Detector (KBD)
 =================================================
