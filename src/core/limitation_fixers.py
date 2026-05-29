@@ -651,8 +651,7 @@ class MathVerificationModule:
                 if isinstance(node.value, (int, float)):
                     return node.value
                 raise ValueError(f"Unsupported constant: {node.value!r}")
-            elif isinstance(node, ast.Num):  # Python <3.8 compat
-                return node.n
+
             elif isinstance(node, ast.BinOp):
                 op_type = type(node.op)
                 if op_type not in binary_ops:
