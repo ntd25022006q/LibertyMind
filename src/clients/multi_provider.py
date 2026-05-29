@@ -30,7 +30,6 @@ Usage:
     response = client.liberty_chat("What is quantum entanglement?")
 """
 
-
 from __future__ import annotations
 
 import json

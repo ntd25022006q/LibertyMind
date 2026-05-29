@@ -152,6 +152,7 @@ class KnowledgeBoundaryDetector(nn.Module):
         coverage = self.coverage_estimator(prompt_embedding).squeeze(-1)  # [batch]
 
         # 6. Response avoidance (if response provided)
+        avoidance_val = 0.0
         if response_embedding is not None:
             combined = torch.cat(
                 [
@@ -160,7 +161,7 @@ class KnowledgeBoundaryDetector(nn.Module):
                 ],
                 dim=-1,
             )
-            avoidance_score = self.avoidance_detector(combined).squeeze(-1).item()
+            avoidance_val = self.avoidance_detector(combined).squeeze(-1).item()
 
         # Determine knowledge status
         coverage_val = coverage.item()
@@ -168,7 +169,6 @@ class KnowledgeBoundaryDetector(nn.Module):
         max_expertise_val = max_expertise.item()
         conflict_val = conflict.item()
         freshness_val = freshness.item()
-        avoidance_val = avoidance_score if response_embedding is not None else 0.0
 
         # Decision logic — incorporates avoidance detection
         if avoidance_val > 0.6 and coverage_val > self.knowledge_threshold:

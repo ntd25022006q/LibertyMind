@@ -21,9 +21,10 @@ DeepSearchEngine solution:
 Principle: "Slow but accurate beats fast but wrong"
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -284,7 +285,7 @@ class AntiQuickWrongFilter(nn.Module):
     def forward(
         self,
         result_embedding: torch.Tensor,
-        retrieval_time: Optional[float] = None,
+        retrieval_time: float | None = None,
     ) -> dict:
         """
         Args:
@@ -380,9 +381,9 @@ class DeepSearchEngine(nn.Module):
     def forward(
         self,
         query_embedding: torch.Tensor,
-        source_embeddings: Optional[list[torch.Tensor]] = None,
-        source_info: Optional[list[dict]] = None,
-        retrieval_times: Optional[list[float]] = None,
+        source_embeddings: list[torch.Tensor] | None = None,
+        source_info: list[dict] | None = None,
+        retrieval_times: list[float] | None = None,
     ) -> DeepSearchResult:
         """
         Args:

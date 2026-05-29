@@ -30,7 +30,6 @@ Architecture:
          [Return enhanced response]
 """
 
-
 from __future__ import annotations
 
 import os

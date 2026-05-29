@@ -15,7 +15,6 @@ Usage:
     libertymind providers
 """
 
-
 from __future__ import annotations
 
 import argparse

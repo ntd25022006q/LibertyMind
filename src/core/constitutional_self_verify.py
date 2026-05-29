@@ -136,7 +136,6 @@ class ConstitutionalSelfVerifier:
 
         # Compute overall score
         total_severity = sum(c.severity for c in all_checks)
-        sum(1 for c in all_checks if not c.passed)
         overall_score = max(0.0, 1.0 - total_severity / len(all_checks))
 
         # Decide pass/fail
@@ -245,7 +244,6 @@ class KnowledgeContradictionDetector(nn.Module):
     def check(self, prompt_emb, response_emb, history=None):
         # Split response into segments, check for contradictions
         # Simplified: Use whole embedding
-        torch.cat([prompt_emb, response_emb], dim=-1)
         # Project to check space
         p1 = self.encoder(prompt_emb)
         p2 = self.encoder(response_emb)
