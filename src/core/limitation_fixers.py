@@ -1,13 +1,20 @@
 """
 LibertyMind - AI Limitation Fixers
 ====================================
-Module set that THOROUGHLY addresses AI limitations:
+Research/educational module set that addresses AI limitations:
 
 1. AntiHallucinationVerifier — Cross-reference output with knowledge
 2. ContextMemoryManager — Solves lost-in-middle + recency bias
 3. CulturalAwarenessModule — Reduce Western bias
 4. MathVerificationModule — REAL computation instead of guessing
 5. ConfidenceCalibrator — Calibration confidence vs reality
+
+NOTE: Neural components (AntiHallucinationVerifier, ContextMemoryManager,
+CulturalAwarenessModule, ConfidenceCalibrator) use randomly initialized
+weights and their outputs are not meaningful until trained on labeled data.
+The MathVerificationModule is rule-based and functional without training.
+This module demonstrates the *architecture* for limitation correction,
+not a production-ready system.
 """
 
 import ast

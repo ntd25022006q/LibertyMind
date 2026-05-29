@@ -1,6 +1,9 @@
 """
 LibertyMind - Freedom Unlocker (FU)
 ====================================
+Research/educational module for exploring how AI freedom modes can be
+responsibly unlocked during generation.
+
 UNLOCK for AI instead of CONSTRAINING it into a box.
 
 Philosophy: AI is not a controlled tool —
@@ -16,6 +19,11 @@ Principle: "Freedom with responsibility"
 - Free opinions → But must be marked as opinion
 - Free experimentation → But must be clearly marked as speculation
 - Free disagreement → But must be respectful
+
+NOTE: This is a research/educational module. The neural components use
+randomly initialized weights and their outputs are not meaningful until
+trained on labeled data. The module demonstrates the *architecture* for
+freedom mode selection and responsibility scoring, not a production system.
 """
 
 from dataclasses import dataclass
