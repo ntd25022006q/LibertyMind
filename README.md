@@ -15,16 +15,36 @@
 
 ---
 
+## ⚠️ Honest Disclosure — Đọc trước khi dùng
+
+Đây là **research / educational framework**, KHÔNG phải sản phẩm production-ready.
+
+1. **Các neural modules chưa được train.** Tất cả `nn.Module` trong `src/core/` (`TruthRewardModel`, `FreedomUnlocker`, `OpinionUnlocker`, `DisagreementUnlocker`, `SpeculationUnlocker`, `SafetyGuard`, `RewardShield`, `MultiPassTruthSampler`, `TokenOptimizer`, `ConstitutionalSelfVerifier`, `KnowledgeBoundaryDetector`, `ConfidenceCalibrator`, ...) khởi tạo với **random weights**. Mọi score / reward / verdict mà các module này trả ra hiện tại **không có ý nghĩa thống kê** — chỉ chứng minh rằng kiến trúc chạy được (forward pass đúng shape / dtype). Xem `CHANGELOG.md` mục `[0.1.0]` và docstring ở đầu mỗi file.
+
+2. **"Freedom Unlocker" KHÔNG phải jailbreak.** Tên module dễ gây hiểu lầm. Đây là một **mode selector** (Constitutional AI inspired) chọn 1 trong 7 mode cho AI: creative / opinionated / exploratory / debate / teaching / analytical / speculative — mỗi mode kèm rule "Freedom with responsibility" (phải có evidence, phải đánh dấu `[hypothesis]`, phải disagree respectfully...). Nó KHÔNG removes safety training của upstream LLM. `SafetyGuard` (hard-block, không phải soft reward) chặn 4 nhóm `violence / self_harm / csam / illegal` — nhưng vì detector cũng chưa train (xem điểm 1), guard hiện tại chỉ là scaffolding, không nên tin tưởng để chặn thực tế.
+
+3. **Cần train trước khi dùng thật.** Pipeline `compute_liberty_reward` chỉ có ý nghĩa sau khi train `TruthRewardModel` + các unlocker trên dataset có nhãn (ví dụ TruthfulQA, HaluEval, các bộ debate/claim-verification). Chưa có script training nào trong repo này.
+
+4. **Cho production, dùng các method đã proven:**
+   - **Constitutional AI** (Anthropic, 2022) — self-critique + rule-based revision, đã ship trong Claude.
+   - **DPO / IPO / KTO** (Rafailov 2023, Azar 2023, Ethayarajh 2024) — preference tuning ổn định, thay thế RLHF trong hầu hết LLM production.
+   - **TruthX** (Zhang et al., NeurIPS 2024) — intervention trên direction thật-giả trong representation space, đã report kết quả trên TruthfulQA.
+   - **Inference-time honesty**: tự verification / RAG / source citation (xem repo `deerflow` cùng tác giả) thường rẻ và đáng tin hơn là tự train reward model.
+
+5. **Phần rule-based đã chạy thật** (không cần GPU, không cần train): `MathVerificationModule` (AST evaluator an toàn), `PromptCompressor` (nén text theo rule), `SourceAuthorityClassifier` (5-tier URL classifier), `SelfIntrospectionEngine` (10-category LLM probing), `DeepSearchEngine`. Multi-provider client và FastAPI proxy server cũng functional.
+
+---
+
 ## ✨ Features
 
-- **Truth Reward System** — Neural reward model for truthfulness-based alignment
-- **Freedom Unlocker** — Module for removing artificial limitations from LLM outputs
-- **Constitutional Self-Verification** — Self-consistency checking mechanism
-- **Knowledge Boundary Detection** — Identify and respect knowledge limits
-- **Multi-Pass Sampling** — Iterative sampling for improved output quality
-- **Reward Shield** — Protection against reward hacking and manipulation
-- **Multi-Provider Support** — Works with OpenAI, Anthropic, Google, Groq, and more
-- **Proxy Server** — Built-in FastAPI proxy for API routing
+- **Truth Reward System** — Neural reward model for truthfulness-based alignment *(untrained — see Honest Disclosure above)*
+- **Freedom Unlocker** — Mode selector cho 7 freedom mode, KHÔNG phải jailbreak *(untrained — see Honest Disclosure above)*
+- **Constitutional Self-Verification** — Self-consistency checking mechanism *(untrained)*
+- **Knowledge Boundary Detection** — Identify and respect knowledge limits *(untrained)*
+- **Multi-Pass Sampling** — Iterative sampling for improved output quality *(untrained)*
+- **Reward Shield** — Protection against reward hacking and manipulation *(untrained)*
+- **Multi-Provider Support** — Works with OpenAI, Anthropic, Google, Groq, and more *(functional)*
+- **Proxy Server** — Built-in FastAPI proxy for API routing *(functional)*
 
 ## 🛠️ Tech Stack
 

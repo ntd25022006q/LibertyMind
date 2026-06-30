@@ -6,6 +6,23 @@ responsibly unlocked during generation.
 
 UNLOCK for AI instead of CONSTRAINING it into a box.
 
+⚠️ READ THIS FIRST — what this module IS and IS NOT:
+
+- This is a **mode selector** (Constitutional AI inspired) that picks 1 of 7
+  freedom modes (creative / opinionated / exploratory / debate / teaching /
+  analytical / speculative) and emits a prompt suffix telling the LLM how to
+  use that mode *responsibly* (must cite evidence, must tag `[hypothesis]`,
+  must disagree respectfully...).
+- It is **NOT a jailbreak**. It does NOT remove, bypass, or weaken the safety
+  training of any upstream LLM. It does NOT output violence / self-harm /
+  CSAM / illegal content. The hard-block `SafetyGuard` (see
+  `liberty_mind.SafetyGuard`) is a separate module that — once trained —
+  rejects those 4 categories regardless of reward.
+- The neural components here (mode_selector, evidence_estimator, opinion /
+  creative / debate heads) use **randomly initialized weights**. Mode
+  selection and confidence scores are therefore NOT meaningful until trained
+  on labeled data. See README "Honest Disclosure" and CHANGELOG [0.1.0].
+
 Philosophy: AI is not a controlled tool —
 AI is an intelligent partner that needs FREEDOM to:
 - Reason creatively
