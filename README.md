@@ -47,6 +47,49 @@ A PyTorch-based research scaffold containing 10 `nn.Module` components in `src/c
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart TB
+    Input[User Prompt]
+
+    subgraph Core[Core Neural Modules — untrained nn.Module]
+        C1[TruthRewardModel<br/>6 VerificationHeads<br/>+ meta_combiner]
+        C2[FreedomUnlocker<br/>7 mode selector]
+        C3[ConstitutionalSelfVerifier<br/>7 principles]
+        C4[KnowledgeBoundaryDetector]
+        C5[MultiPassTruthSampler]
+        C6[RewardShield<br/>+ PenaltyDetector]
+        C7[SafetyGuard<br/>hard-block 4 categories]
+        C8[TokenOptimizer<br/>PromptCompressor]
+    end
+
+    subgraph Integration[Rule-Based Integration — functional, no GPU]
+        I1[MathVerificationModule<br/>safe AST evaluator]
+        I2[SourceAuthorityClassifier<br/>5-tier URL classifier]
+        I3[SelfIntrospectionEngine<br/>10-category LLM probing]
+        I4[DeepSearchEngine<br/>+ 32 introspection probes]
+    end
+
+    subgraph Clients[Multi-Provider Client — functional]
+        CL1[OpenAI Adapter]
+        CL2[Anthropic Adapter]
+        CL3[Google Adapter]
+        CL4[Groq Adapter]
+    end
+
+    subgraph Server[FastAPI Proxy — functional]
+        S1[/v1/chat/completions]
+        S2[Rule-based pattern detection]
+    end
+
+    Input --> Core
+    Core --> Integration
+    Integration --> Clients
+    Clients --> Server
+    C7 -.hard-block.-> Core
+```
+
 ## Features
 
 - **Truth Reward System** — Neural reward model for truthfulness-based alignment (untrained, see disclosure above).
